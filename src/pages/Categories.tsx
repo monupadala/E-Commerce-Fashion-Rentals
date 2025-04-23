@@ -19,6 +19,10 @@ export default function CategoriesPage() {
                 src={category.imageUrl} 
                 alt={category.name}
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                onError={(e) => {
+                  const img = e.target as HTMLImageElement;
+                  img.src = '/placeholder.svg';
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4">
                 <h2 className="text-white text-xl font-medium mb-1">{category.name}</h2>

@@ -35,7 +35,9 @@ export default function Index() {
           >
             <div 
               className="absolute inset-0 bg-cover bg-center" 
-              style={{ backgroundImage: `url(${banner.imageUrl})` }}
+              style={{ 
+                backgroundImage: `url(${banner.imageUrl})` 
+              }}
             />
             <div className="absolute inset-0 bg-black/40" />
             <div className="container mx-auto h-full flex items-center px-4">
@@ -90,6 +92,10 @@ export default function Index() {
                     src={category.imageUrl}
                     alt={category.name}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    onError={(e) => {
+                      const img = e.target as HTMLImageElement;
+                      img.src = '/placeholder.svg';
+                    }}
                   />
                 </div>
                 <div className="p-3 text-center">
@@ -126,6 +132,10 @@ export default function Index() {
                     src={product.images[0]} 
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const img = e.target as HTMLImageElement;
+                      img.src = '/placeholder.svg';
+                    }}
                   />
                   {product.originalPrice && (
                     <div className="absolute top-2 left-2 bg-brand-red text-white text-xs px-2 py-1 rounded-sm">

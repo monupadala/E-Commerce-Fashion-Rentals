@@ -63,6 +63,10 @@ export default function ProductsPage() {
                     src={product.images[0]} 
                     alt={product.name}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const img = e.target as HTMLImageElement;
+                      img.src = '/placeholder.svg';
+                    }}
                   />
                 </div>
                 <div className="p-4">
