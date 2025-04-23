@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Search, ShoppingCart, Heart, User, Menu, X } from "lucide-react";
@@ -38,8 +37,8 @@ export function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <span className="text-2xl font-serif font-bold text-brand-red">Rent</span>
-            <span className="text-2xl font-serif font-bold text-brand-black">Threads</span>
+            <span className="text-2xl font-serif font-bold text-brand-red">Trend</span>
+            <span className="text-2xl font-serif font-bold text-brand-black">Lend</span>
             <span className="hidden sm:inline-block text-sm font-medium text-brand-gray ml-2">India</span>
           </Link>
 

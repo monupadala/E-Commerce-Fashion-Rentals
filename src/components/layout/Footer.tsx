@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 
@@ -12,8 +11,8 @@ export function Footer() {
           {/* Company Info */}
           <div>
             <div className="flex items-center mb-4">
-              <span className="text-xl font-serif font-bold text-brand-red">Rent</span>
-              <span className="text-xl font-serif font-bold text-white">Threads</span>
+              <span className="text-xl font-serif font-bold text-brand-red">Trend</span>
+              <span className="text-xl font-serif font-bold text-white">Lend</span>
               <span className="text-xs font-medium text-brand-gray ml-1">India</span>
             </div>
             <p className="text-sm text-gray-300 mb-4">
