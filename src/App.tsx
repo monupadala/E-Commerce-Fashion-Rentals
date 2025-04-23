@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound";
 import ProductsPage from "./pages/Products";
 import ProductDetailPage from "./pages/ProductDetail";
 import CartPage from "./pages/Cart";
+import CheckoutPage from "./pages/Checkout";
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
 import AccountPage from "./pages/Account";
@@ -24,16 +25,6 @@ import WishlistPage from "./pages/Wishlist";
 import CategoriesPage from "./pages/Categories";
 
 const queryClient = new QueryClient();
-
-// Create Checkout page component
-const CheckoutPage = () => {
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-serif font-bold mb-8">Checkout</h1>
-      <p className="text-gray-600">Checkout page will be implemented soon.</p>
-    </div>
-  );
-};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
