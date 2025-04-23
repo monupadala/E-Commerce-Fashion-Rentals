@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/contexts/CartContext";
-import { package_check } from "lucide-react";
+import { PackageCheck } from "lucide-react";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
-  const { cart, totalAmount } = useCart();
+  const { items, subtotal } = useCart();
   const [shippingDetails, setShippingDetails] = useState({
     fullName: '',
     address: '',
@@ -17,6 +17,12 @@ export default function CheckoutPage() {
     pincode: '',
     phone: '',
   });
+
+  // Shipping cost fixed at ₹99
+  const shippingCost = items.length > 0 ? 99 : 0;
+  const gstRate = 0.18; // 18% GST
+  const gstAmount = subtotal * gstRate;
+  const totalAmount = subtotal + shippingCost + gstAmount;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,7 +35,7 @@ export default function CheckoutPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // This will be connected to backend later
-    console.log('Order placed:', { shippingDetails, cart });
+    console.log('Order placed:', { shippingDetails, items });
     // For now, just show success and redirect
     alert('Order placed successfully!');
     navigate('/orders');
@@ -131,7 +137,7 @@ export default function CheckoutPage() {
                 type="submit" 
                 className="w-full mt-6 bg-brand-red hover:bg-brand-red/90"
               >
-                <package_check className="w-4 h-4 mr-2" />
+                <PackageCheck className="w-4 h-4 mr-2" />
                 Place Order
               </Button>
             </form>
@@ -144,12 +150,12 @@ export default function CheckoutPage() {
             <h2 className="text-xl font-medium mb-4">Order Summary</h2>
             
             <div className="space-y-4">
-              {cart.map((item) => (
-                <div key={item.id} className="flex items-center space-x-4">
+              {items.map((item) => (
+                <div key={item.product.id} className="flex items-center space-x-4">
                   <div className="h-16 w-16 flex-shrink-0">
                     <img
-                      src={item.images[0]}
-                      alt={item.name}
+                      src={item.product.images[0]}
+                      alt={item.product.name}
                       className="h-full w-full object-cover rounded-md"
                       onError={(e) => {
                         const img = e.target as HTMLImageElement;
@@ -159,14 +165,14 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-gray-900 truncate">
-                      {item.name}
+                      {item.product.name}
                     </p>
                     <p className="text-sm text-gray-500">
                       Rental Duration: {item.rentalDuration} days
                     </p>
                   </div>
                   <div className="text-sm font-medium text-gray-900">
-                    ₹{item.price * item.rentalDuration}
+                    ₹{item.product.price * item.rentalDuration}
                   </div>
                 </div>
               ))}
@@ -174,15 +180,19 @@ export default function CheckoutPage() {
               <div className="border-t pt-4 mt-4">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Subtotal</span>
-                  <span className="text-sm font-medium">₹{totalAmount}</span>
+                  <span className="text-sm font-medium">₹{subtotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between mt-2">
+                  <span className="text-sm text-gray-600">GST (18%)</span>
+                  <span className="text-sm font-medium">₹{gstAmount.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between mt-2">
                   <span className="text-sm text-gray-600">Shipping</span>
-                  <span className="text-sm font-medium">Free</span>
+                  <span className="text-sm font-medium">₹{shippingCost.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between mt-2 pt-2 border-t">
                   <span className="font-medium">Total</span>
-                  <span className="font-bold text-brand-red">₹{totalAmount}</span>
+                  <span className="font-bold text-brand-red">₹{totalAmount.toFixed(2)}</span>
                 </div>
               </div>
             </div>
