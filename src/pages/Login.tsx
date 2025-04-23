@@ -9,7 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { login, sendOTP, verifyOTP } = useAuth();
+  const { login, sendOTP, verifyOTP, isLoading: authLoading } = useAuth();
   
   // Password login state
   const [email, setEmail] = useState("");
@@ -127,9 +127,9 @@ export default function LoginPage() {
                 <Button 
                   type="submit" 
                   className="w-full bg-brand-red hover:bg-brand-red/90"
-                  disabled={isLoading}
+                  disabled={isLoading || authLoading}
                 >
-                  {isLoading ? "Signing in..." : "Sign In"}
+                  {isLoading || authLoading ? "Signing in..." : "Sign In"}
                 </Button>
               </div>
             </form>
@@ -162,9 +162,9 @@ export default function LoginPage() {
                   <Button 
                     type="submit" 
                     className="w-full bg-brand-red hover:bg-brand-red/90"
-                    disabled={otpIsLoading}
+                    disabled={otpIsLoading || authLoading}
                   >
-                    {otpIsLoading ? "Sending OTP..." : "Send OTP"}
+                    {otpIsLoading || authLoading ? "Sending OTP..." : "Send OTP"}
                   </Button>
                 </div>
               </form>
@@ -190,9 +190,9 @@ export default function LoginPage() {
                   <Button 
                     type="submit" 
                     className="w-full bg-brand-red hover:bg-brand-red/90"
-                    disabled={otpIsLoading}
+                    disabled={otpIsLoading || authLoading}
                   >
-                    {otpIsLoading ? "Verifying..." : "Verify OTP"}
+                    {otpIsLoading || authLoading ? "Verifying..." : "Verify OTP"}
                   </Button>
                   
                   <div className="text-center">
@@ -211,7 +211,7 @@ export default function LoginPage() {
                       type="button"
                       className="text-sm text-brand-red hover:underline"
                       onClick={() => handleSendOTP}
-                      disabled={otpIsLoading}
+                      disabled={otpIsLoading || authLoading}
                     >
                       Resend OTP
                     </button>

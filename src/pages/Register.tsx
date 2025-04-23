@@ -1,13 +1,14 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const { register, isLoading: authLoading } = useAuth();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -75,10 +76,13 @@ export default function RegisterPage() {
     
     setIsLoading(true);
     
-    // Simulate API call
     try {
-      // In a real application, you would make an API call to register the user
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await register(
+        formData.email, 
+        formData.password, 
+        formData.firstName, 
+        formData.lastName
+      );
       
       toast({
         title: "Registration Successful!",
@@ -86,10 +90,10 @@ export default function RegisterPage() {
       });
       
       navigate("/login");
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Registration Failed",
-        description: "An error occurred during registration. Please try again.",
+        description: error?.message || "An error occurred during registration. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -196,9 +200,9 @@ export default function RegisterPage() {
           <Button 
             type="submit" 
             className="w-full bg-brand-red hover:bg-brand-red/90"
-            disabled={isLoading}
+            disabled={isLoading || authLoading}
           >
-            {isLoading ? "Creating Account..." : "Create Account"}
+            {isLoading || authLoading ? "Creating Account..." : "Create Account"}
           </Button>
         </form>
         
