@@ -3,24 +3,67 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Layout } from "./components/layout/Layout";
+import { AuthProvider } from "./contexts/AuthContext";
+import { CartProvider } from "./contexts/CartContext";
+import { WishlistProvider } from "./contexts/WishlistContext";
+
+// Pages
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import ProductsPage from "./pages/Products";
+import ProductDetailPage from "./pages/ProductDetail";
+import CartPage from "./pages/Cart";
+import CheckoutPage from "./pages/Checkout";
+import LoginPage from "./pages/Login";
+import RegisterPage from "./pages/Register";
+import AccountPage from "./pages/Account";
+import OrdersPage from "./pages/Orders";
+import OrderDetailPage from "./pages/OrderDetail";
+import WishlistPage from "./pages/Wishlist";
+import CategoriesPage from "./pages/Categories";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <CartProvider>
+        <WishlistProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Layout>
+                <Routes>
+                  {/* Public Routes */}
+                  <Route path="/" element={<Index />} />
+                  <Route path="/products" element={<ProductsPage />} />
+                  <Route path="/product/:id" element={<ProductDetailPage />} />
+                  <Route path="/categories" element={<CategoriesPage />} />
+                  <Route path="/category/:slug" element={<ProductsPage />} />
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/register" element={<RegisterPage />} />
+                  <Route path="/trending" element={<ProductsPage />} />
+                  <Route path="/new-arrivals" element={<ProductsPage />} />
+                  
+                  {/* Protected Routes (would normally have auth protection) */}
+                  <Route path="/checkout" element={<CheckoutPage />} />
+                  <Route path="/account" element={<AccountPage />} />
+                  <Route path="/orders" element={<OrdersPage />} />
+                  <Route path="/order/:id" element={<OrderDetailPage />} />
+                  <Route path="/wishlist" element={<WishlistPage />} />
+                  
+                  {/* Catch-all route */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Layout>
+            </BrowserRouter>
+          </TooltipProvider>
+        </WishlistProvider>
+      </CartProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
